@@ -358,13 +358,13 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
 }
 
 .hero-text-bar {
-    display: inline-block;
+    display: block;
+    width: 100%;
     padding: 40px 48px;
     background: rgba(0, 0, 0, 0.55);
     border-radius: 12px;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    max-width: 750px;
     margin: 0 auto;
 }
 
