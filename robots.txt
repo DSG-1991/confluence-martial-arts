@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Sitemap: https://confluence-martial-arts.netlify.app/sitemap.xml
+
+# AI search bots
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+# Training scrapers
+User-agent: CCBot
+Disallow: /
+User-agent: Bytespider
+Disallow: /
