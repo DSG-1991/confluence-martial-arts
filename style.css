@@ -597,7 +597,7 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
    ============================================ */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
 }
 
@@ -606,13 +606,12 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     overflow: hidden;
     cursor: pointer;
     position: relative;
-    aspect-ratio: 1;
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s ease;
 }
 
@@ -715,6 +714,14 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     border-color: var(--color-accent);
     transform: translateY(-4px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.learning-video iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .learning-video {
@@ -947,6 +954,16 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     color: #666;
 }
 
+.footer-attribution {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.footer-attribution a {
+    color: var(--color-accent);
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
@@ -1047,7 +1064,7 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     }
 
     .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(160px, 1fr));
         gap: 8px;
     }
 
