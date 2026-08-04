@@ -357,6 +357,17 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     padding: 120px 0 60px;
 }
 
+.hero-text-bar {
+    display: inline-block;
+    padding: 40px 48px;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    max-width: 750px;
+    margin: 0 auto;
+}
+
 .hero-badge {
     display: inline-block;
     font-size: 0.8rem;
