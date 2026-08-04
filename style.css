@@ -344,9 +344,9 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     position: absolute;
     inset: 0;
     background: 
-        radial-gradient(ellipse at 20% 30%, rgba(196, 30, 30, 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 0%, rgba(196, 30, 30, 0.08) 0%, transparent 40%);
+        radial-gradient(ellipse at 20% 30%, rgba(196, 30, 30, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(201, 168, 76, 0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 0%, rgba(196, 30, 30, 0.40) 0%, transparent 40%);
     z-index: 1;
 }
 
@@ -368,6 +368,7 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     padding: 8px 20px;
     border: 1px solid rgba(201, 168, 76, 0.3);
     border-radius: 50px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .hero-title {
@@ -384,13 +385,15 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     color: var(--color-accent);
     font-weight: 600;
     margin-bottom: 12px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .hero-desc {
     font-size: 1.1rem;
-    color: var(--color-text-muted);
+    color: #e0e0e0;
     max-width: 500px;
     margin: 0 auto 40px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .hero-actions {
@@ -418,6 +421,7 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--color-gold);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .stat-label {
@@ -425,6 +429,7 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 .scroll-indicator {
