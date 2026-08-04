@@ -1,88 +1,97 @@
-# Confluence Martial Arts — Fix Plan
+# Fix Plan: Hero Video on Mobile + Video 3 Not Playing
 
 ## Phase 1 — Discovery
 
-**What:** Fix gallery images 1-3 (not training/dojo photos) and video embeds 1 & 3 (show "Video unavailable")
+**Problem 1:** Hero background video doesn't show on mobile. The video file (271KB, 640x340, vp09 codec) was downloaded as a DASH fragment without proper MP4 metadata. Mobile browsers need the moov atom at the start of the file for streaming playback. Without ffmpeg (no sudo), the file can't be fixed.
 
-**Problem:** Dean reports first 3 gallery images are not relevant (not training/dojo photos). Videos in cards 1 and 3 still don't play.
+**Problem 2:** Video card 3 uses a Facebook Reel embed (`reel/3403520003128982/`). Reels use a different player format than standard videos and may not play inline via the plugin embed.
 
-**Current state verified:**
-- ✅ Gallery images 1-10 exist on disk at `/home/dean/confluence-martial-arts/images/`
-- ✅ Gallery-1.jpg: 796x720, 51KB
-- ✅ Gallery-2.jpg: 720x720, 86KB
-- ✅ Gallery-3.jpg: 540x720, 60KB
-- ✅ Gallery-4 through gallery-10: various sizes 714x720 to 1274x720
-- ✅ Video card 1 embed URL: Facebook post with video ID 4534829160177043
-- ✅ Video card 2: Samuel Kwok video — confirmed working
-- ✅ Video card 3: Text-based fallback (no video embed)
-- ❌ Cannot use vision_analyze (model doesn't support images)
-- ❌ Cannot use browser (Chrome needs libnspr4.so, network timeout downloading debs)
-- ❌ Cannot verify what gallery-1,2,3 actually show
-
-**Clarifying question:** I cannot see what the images look like (vision model unavailable). I need to either:
-- Replace gallery-1,2,3 with images I know are training-related from the Facebook pages
-- Or ask Dean what the images show
+**Verified:**
+- ✅ Video file exists at `images/hero-bg-video.mp4` (277KB, valid MP4 header)
+- ✅ HTML has `<video>` element with `autoplay muted loop playsinline preload="auto"`
+- ✅ CSS has `.hero-video` with correct positioning and z-index
+- ✅ No `poster` attribute (removed in previous fix)
+- ✅ Video card 3 embed uses reel format URL
+- ❌ Cannot run ffmpeg (no sudo)
+- ❌ Cannot verify video plays on mobile from this environment
 
 ## Phase 2 — Solution Space
 
-### Approach A: Replace gallery-1,2,3 with images from gallery-4 through gallery-10 (reorder)
-- **Pros:** Zero external dependencies, guaranteed to be training/dojo photos
-- **Cons:** Reduces total unique images from 10 to 7
-- **Complexity:** Low
+### Hero Video on Mobile
 
-### Approach B: Crawl Facebook pages for new training images
-- **Pros:** Fresh content, more variety
-- **Cons:** Blocked — Chrome can't launch, network timeout on deps
-- **Complexity:** High (blocked)
+**Approach A — Re-download with yt-dlp using a compatible format (BEST)**
+- Use yt-dlp to download the video in a mobile-compatible format (h264 instead of vp09)
+- Pros: Fixes the root cause, no CSS changes needed
+- Cons: Facebook may not offer h264 in the available formats
+- Complexity: Low
 
-### Approach C: For videos — test each embed URL with curl, find alternatives
-- **Pros:** Can test without browser
-- **Cons:** Facebook returns JS-rendered pages to curl, not video content
+**Approach B — Add a CSS fallback background image for mobile**
+- Add a `background-image` to `.hero` that shows when the video doesn't play
+- Pros: Guaranteed to work on all devices
+- Cons: Workaround, not root cause fix
+- Complexity: Low
 
-### Chosen path: Approach A for images + test video URLs with curl
+**Approach C — Use a YouTube-hosted version of the video**
+- Upload to YouTube, embed via YouTube iframe
+- Pros: Reliable playback across all devices
+- Cons: Requires manual upload, different from Facebook source
+- Complexity: Medium
+
+**Chosen:** Approach A first. If no h264 format available, combine A + B.
+
+### Video 3 Not Playing
+
+**Approach A — Use standard video embed format instead of reel format**
+- Reels use a different player. Try the standard `/videos/` URL format
+- Pros: Standard video embeds are more reliable
+- Cons: The reel URL may not have a standard video equivalent
+- Complexity: Low
+
+**Approach B — Replace with a different working video from the same pages**
+- Use a different video from Confluence MA or Craig's page
+- Pros: Guaranteed to work if we find a working one
+- Cons: Need to find one
+- Complexity: Low
+
+**Chosen:** Approach A. Try converting the reel URL to standard video format.
 
 ## Phase 3 — Workflow
 
-### Images fix:
-1. Remove gallery-1.jpg, gallery-2.jpg, gallery-3.jpg from the HTML
-2. Reorder remaining images (gallery-4 through gallery-10) to fill the grid
-3. Update alt text to be accurate
+### Hero Video Fix:
+1. Check available formats from Facebook for this video
+2. Download in h264 format if available
+3. If not, add CSS background fallback for mobile
 
-### Videos fix:
-1. Test each current embed URL with curl to check response
-2. Try alternative Facebook video URLs from the same pages
-3. If no working embed found, use text-based resource cards with external links
+### Video 3 Fix:
+1. Try the reel URL as a standard video embed
+2. If that doesn't work, find an alternative video
 
-## Phase 4 — Detailed Steps
+## Phase 4 — Steps
 
-### Step 1: Test video embed URLs
-- Curl each Facebook embed URL
-- Check if response contains "Video unavailable" or "not found"
-- Try alternative video URLs from confluencema and craig.abernethy.549 pages
+### Step 1: Check video formats
+- Run `yt-dlp -F` on the hero video URL
+- Look for h264/mp4 format (not vp09)
 
-### Step 2: Find alternative video URLs
-- Check Facebook pages for public video posts
-- Try direct video URLs and post URLs
+### Step 2: Re-download if possible
+- If h264 format exists, download and replace the file
+- If not, proceed to CSS fallback
 
-### Step 3: Update HTML
-- Remove gallery-1,2,3 from gallery grid
-- Reorder remaining images
-- Replace broken video embeds with working ones or text fallbacks
+### Step 3: Fix video 3 embed
+- Change the embed URL from reel format to standard video format
+- Deploy and verify
 
 ### Step 4: Deploy
-- Commit, push to GitHub
-- Deploy to Netlify
+- Commit, push, deploy to Netlify
 - Verify live site
 
 ## Phase 5 — Checklist
-- [ ] Test current video embed URLs
-- [ ] Find working alternative video URLs
-- [ ] Update index.html (remove gallery-1,2,3, fix videos)
-- [ ] Commit and push
-- [ ] Deploy to Netlify
+- [ ] Check available video formats
+- [ ] Re-download hero video in mobile-compatible format
+- [ ] Fix video 3 embed URL
+- [ ] Commit, push, deploy
 - [ ] Verify live site
 
 ## Phase 6 — Constraints
-- Cannot use browser (Chrome deps unavailable)
-- Cannot use vision_analyze (model limitation)
-- Must use Claude Code for code changes (operating manual rule)
+- No sudo access (can't install ffmpeg)
+- Can't test mobile rendering from this environment
+- Must use delegate_task for code changes
