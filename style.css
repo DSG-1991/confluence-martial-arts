@@ -367,8 +367,8 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
 }
 
 .hero-text-bar {
-    display: inline-block;
-    width: auto;
+    display: block;
+    width: fit-content;
     padding: 8px 24px;
     background: rgba(0, 0, 0, 0.55);
     border-radius: 8px;
