@@ -290,6 +290,10 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
     border: none;
     cursor: pointer;
     padding: 4px;
+    position: relative;
+    z-index: 1001;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-toggle span {
