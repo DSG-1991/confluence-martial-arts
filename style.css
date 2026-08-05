@@ -886,6 +886,90 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
 }
 
 /* ============================================
+   BLOG
+   ============================================ */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.blog-card {
+    display: block;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    transition: all var(--transition);
+    text-decoration: none;
+    color: inherit;
+}
+
+.blog-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.blog-card-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--color-accent-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.blog-card-icon i {
+    font-size: 1.3rem;
+    color: var(--color-accent);
+}
+
+.blog-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--color-text);
+    transition: color var(--transition);
+}
+
+.blog-card:hover h3 {
+    color: var(--color-gold);
+}
+
+.blog-card p {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.blog-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    transition: gap var(--transition);
+}
+
+.blog-card:hover .blog-card-link {
+    gap: 10px;
+}
+
+.blog-card-link i {
+    font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
    FAQ
    ============================================ */
 .faq-section {
