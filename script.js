@@ -95,6 +95,68 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'ArrowRight') navigateLightbox(1);
     });
 
+    // --- FAQ Accordion ---
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    function closeFaqItem(item) {
+        const answer = item.querySelector('.faq-answer');
+        const question = item.querySelector('.faq-question');
+        // Pin the current height first so the collapse animates from a real value
+        // (it may be 'none' after opening). The reflow read commits that value
+        // before we transition it down — batching both would skip the animation.
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        void answer.offsetHeight;
+        answer.style.maxHeight = '0px';
+        item.classList.remove('active');
+        question.setAttribute('aria-expanded', 'false');
+    }
+
+    function openFaqItem(item) {
+        const answer = item.querySelector('.faq-answer');
+        const question = item.querySelector('.faq-question');
+        item.classList.add('active');
+        question.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+
+    faqItems.forEach(function(item) {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+
+        question.addEventListener('click', function() {
+            const isOpen = item.classList.contains('active');
+
+            // One panel open at a time
+            faqItems.forEach(function(other) {
+                if (other !== item && other.classList.contains('active')) {
+                    closeFaqItem(other);
+                }
+            });
+
+            if (isOpen) {
+                closeFaqItem(item);
+            } else {
+                openFaqItem(item);
+            }
+        });
+
+        // Drop the fixed height once open so answers reflow on resize/font load.
+        answer.addEventListener('transitionend', function(e) {
+            if (e.propertyName === 'max-height' && item.classList.contains('active')) {
+                answer.style.maxHeight = 'none';
+            }
+        });
+    });
+
+    // Re-measure open panels if the viewport changes while one is expanded.
+    window.addEventListener('resize', function() {
+        faqItems.forEach(function(item) {
+            if (item.classList.contains('active')) {
+                item.querySelector('.faq-answer').style.maxHeight = 'none';
+            }
+        });
+    });
+
     // --- Contact Form ---
     const contactForm = document.getElementById('contactForm');
 
